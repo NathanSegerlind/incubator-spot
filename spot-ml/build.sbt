@@ -13,8 +13,9 @@ libraryDependencies += "org.apache.spark" %% "spark-mllib" % "1.6.0"
 libraryDependencies += "org.apache.spark" %% "spark-sql" % "1.6.0"
 libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.2.6"
 libraryDependencies += "com.github.scopt" %% "scopt" % "3.5.0"
-
+libraryDependencies += "graphframes" % "graphframes" % "0.3.0-spark1.6-s_2.10"
 resolvers += Resolver.sonatypeRepo("public")
+resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
 
 val meta = """META.INF(.)*""".r
 
