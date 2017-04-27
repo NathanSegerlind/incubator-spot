@@ -190,16 +190,16 @@ object SpotLDAWrapper {
   DataFrame = {
     import sqlContext.implicits._
 
-    val topicDistributionToArray = udf((topicDistribution: Vector) => topicDistribution.toArray)
-    val documentToTopicDistributionDF = docTopDist.toDF(DocumentNumber, TopicProbabilityMix)
+    // SHORT testing
+    val shortDocTopDist = docTopDist.map({case (id :Long, v :Vector) => (id, v.toArray.map(x => (x * Short.MaxValue).toShort))})
+
+    val documentToTopicDistributionDF = shortDocTopDist.toDF(DocumentNumber, TopicProbabilityMix)
 
     documentToTopicDistributionDF
       .join(documentDictionary, documentToTopicDistributionDF(DocumentNumber) === documentDictionary(DocumentNumber))
       .drop(documentDictionary(DocumentNumber))
       .drop(documentToTopicDistributionDF(DocumentNumber))
       .select(DocumentName, TopicProbabilityMix)
-      .withColumn(TopicProbabilityMixArray, topicDistributionToArray(documentToTopicDistributionDF(TopicProbabilityMix)))
-      .selectExpr(s"$DocumentName  AS $DocumentName", s"$TopicProbabilityMixArray AS $TopicProbabilityMix")
   }
 
 }

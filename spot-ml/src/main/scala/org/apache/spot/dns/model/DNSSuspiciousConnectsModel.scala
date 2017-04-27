@@ -60,7 +60,7 @@ import scala.util.{Failure, Success, Try}
   * @param inEntropyCuts         Quantile cut-offs for discretizing the subdomain entropy in word construction.
   */
 class DNSSuspiciousConnectsModel(inTopicCount: Int,
-                                 inIpToTopicMix: Map[String, Array[Double]],
+                                 inIpToTopicMix: Map[String, Array[Short]], // SHORT testing
                                  inWordToPerTopicProb: Map[String, Array[Double]],
                                  inTimeCuts: Array[Double],
                                  inFrameLengthCuts: Array[Double],
@@ -290,8 +290,8 @@ object DNSSuspiciousConnectsModel {
       .rdd
       .map({ case (ipToTopicMixRow: Row) => ipToTopicMixRow.toSeq.toArray })
       .map({
-        case (ipToTopicMixSeq) => (ipToTopicMixSeq(0).asInstanceOf[String], ipToTopicMixSeq(1).asInstanceOf[Seq[Double]]
-          .toArray)
+        case (ipToTopicMixSeq) => (ipToTopicMixSeq(0).asInstanceOf[String], ipToTopicMixSeq(1).asInstanceOf[Seq[Short]]
+          .toArray)   // SHORT test
       })
       .collectAsMap
       .toMap

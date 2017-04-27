@@ -30,18 +30,19 @@ import org.apache.spot.utilities.data.validation.InvalidDataHandler
   * @param wordToPerTopicProbBC Broadcast of map assigning words to per-topic conditional probability.
   */
 class SuspiciousConnectsScoreFunction(topicCount: Int,
-                                      ipToTopicMixBC: Broadcast[Map[String, Array[Double]]],
+                                      ipToTopicMixBC: Broadcast[Map[String, Array[Short]]],  // SHORT testing
                                       wordToPerTopicProbBC: Broadcast[Map[String, Array[Double]]]) extends Serializable {
 
   def score(ip: String, word: String): Double = {
 
-    val zeroProb = Array.fill(topicCount) { 0d }
+    val zeroProb = Array.fill(topicCount) { 0d } // SHORT test
+    val zeroShort = Array.fill(topicCount) { 0.toShort }
 
     if(word == InvalidDataHandler.WordError){
       InvalidDataHandler.ScoreError
     } else {
       // If either the ip or the word key value cannot be found it means that it was not seen in training.
-      val topicGivenDocProbs = ipToTopicMixBC.value.getOrElse(ip, zeroProb)
+      val topicGivenDocProbs = ipToTopicMixBC.value.getOrElse(ip, zeroShort).map( p=> p.toDouble / Short.MaxValue)
       val wordGivenTopicProbs = wordToPerTopicProbBC.value.getOrElse(word, zeroProb)
 
       topicGivenDocProbs.zip(wordGivenTopicProbs)

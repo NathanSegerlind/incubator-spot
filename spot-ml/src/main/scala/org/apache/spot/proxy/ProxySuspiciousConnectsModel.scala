@@ -44,7 +44,7 @@ import scala.util.{Failure, Success, Try}
   * @param agentCuts          Quintiile cutoffs for frequency of user agent.
   */
 class ProxySuspiciousConnectsModel(topicCount: Int,
-                                   ipToTopicMIx: Map[String, Array[Double]],
+                                   ipToTopicMIx: Map[String, Array[Short]], // SHORT testing
                                    wordToPerTopicProb: Map[String, Array[Double]],
                                    timeCuts: Array[Double],
                                    entropyCuts: Array[Double],
@@ -183,8 +183,8 @@ object ProxySuspiciousConnectsModel {
       .rdd
       .map({ case (ipToTopicMixRow: Row) => ipToTopicMixRow.toSeq.toArray })
       .map({
-        case (ipToTopicMixSeq) => (ipToTopicMixSeq(0).asInstanceOf[String], ipToTopicMixSeq(1).asInstanceOf[Seq[Double]]
-          .toArray)
+        case (ipToTopicMixSeq) => (ipToTopicMixSeq(0).asInstanceOf[String], ipToTopicMixSeq(1).asInstanceOf[Seq[Short]]
+          .toArray)   //  SHORT testing
       })
       .collectAsMap
       .toMap

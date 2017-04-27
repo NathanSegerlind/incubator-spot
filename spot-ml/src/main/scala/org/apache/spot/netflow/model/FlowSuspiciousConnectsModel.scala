@@ -103,8 +103,8 @@ class FlowSuspiciousConnectsModel(topicCount: Int,
                           dstPort: Int,
                           ipkt: Long,
                           ibyt: Long,
-                          srcIpTopicMix: Seq[Double],
-                          dstIpTopicMix: Seq[Double]) =>
+                          srcIpTopicMix: Seq[Short],   // SHORT testing
+                          dstIpTopicMix: Seq[Short]) =>
       scoreFunction.score(hour,
         minute,
         second,
