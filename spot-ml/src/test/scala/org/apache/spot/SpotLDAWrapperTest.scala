@@ -49,8 +49,8 @@ class SpotLDAWrapperTest extends TestingSparkContextFlatSpec with Matchers {
       val topicMixDF = out.docToTopicMix
 
       var topicMix =
-        topicMixDF.filter(topicMixDF(DocumentName) === "pets").select(TopicProbabilityMix).first().toSeq(0).asInstanceOf[Seq[Short]].toArray
-        .map(x => x.toDouble / Short.MaxValue)  // SHORT testing
+        topicMixDF.filter(topicMixDF(DocumentName) === "pets").select(TopicProbabilityMix).first().toSeq(0).asInstanceOf[Seq[Float]].toArray
+        .map(x => x.toDouble / Float.MaxValue)  // SHORT testing
       val catTopics = out.wordResults("cat")
       val dogTopics = out.wordResults("dog")
 
@@ -69,11 +69,11 @@ class SpotLDAWrapperTest extends TestingSparkContextFlatSpec with Matchers {
 
       val topicMixDF = out.docToTopicMix
       var dogTopicMix: Array[Double] =
-        topicMixDF.filter(topicMixDF(DocumentName) === "dog world").select(TopicProbabilityMix).first().toSeq(0).asInstanceOf[Seq[Short]].toArray
-          .map(x => x.toDouble / Short.MaxValue)  // SHORT testing
+        topicMixDF.filter(topicMixDF(DocumentName) === "dog world").select(TopicProbabilityMix).first().toSeq(0).asInstanceOf[Seq[Float]].toArray
+          .map(x => x.toDouble / Float.MaxValue)  // SHORT testing
       val catTopicMix: Array[Double] =
-        topicMixDF.filter(topicMixDF(DocumentName) === "cat fancy").select(TopicProbabilityMix).first().toSeq(0).asInstanceOf[Seq[Short]].toArray
-          .map(x => x.toDouble / Short.MaxValue)  // SHORT testing
+        topicMixDF.filter(topicMixDF(DocumentName) === "cat fancy").select(TopicProbabilityMix).first().toSeq(0).asInstanceOf[Seq[Float]].toArray
+          .map(x => x.toDouble / Float.MaxValue)  // SHORT testing
 
       val catTopics = out.wordResults("cat")
       val dogTopics = out.wordResults("dog")

@@ -191,9 +191,11 @@ object SpotLDAWrapper {
     import sqlContext.implicits._
 
     // SHORT testing
-    val shortDocTopDist = docTopDist.map({case (id :Long, v :Vector) => (id, v.toArray.map(x => (x * Short.MaxValue).toShort))})
+    val shortDocTopDist = docTopDist.map({case (id :Long, v :Vector) => (id, v.toArray.map(x => (x * Float.MaxValue).toFloat))})
 
     val documentToTopicDistributionDF = shortDocTopDist.toDF(DocumentNumber, TopicProbabilityMix)
+
+    println("Estimated size of SHORT document probs = " + org.apache.spark.util.SizeEstimator.estimate(documentToTopicDistributionDF))
 
     documentToTopicDistributionDF
       .join(documentDictionary, documentToTopicDistributionDF(DocumentNumber) === documentDictionary(DocumentNumber))

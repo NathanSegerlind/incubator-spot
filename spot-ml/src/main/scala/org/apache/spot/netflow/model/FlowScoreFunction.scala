@@ -69,12 +69,12 @@ class FlowScoreFunction(timeCuts: Array[Double],
             dstPort: Int,
             ipkt: Long,
             ibyt: Long,
-            srcTopicMixSHORT: Seq[Short], // SHORT test
-            dstTopicMixSHORT: Seq[Short]): Double = {
+            srcTopicMixSHORT: Seq[Float], // SHORT test
+            dstTopicMixSHORT: Seq[Float]): Double = {
 
 
-    val srcTopicMix = srcTopicMixSHORT.map(x => x.toDouble / (Short.MaxValue))
-    val dstTopicMix = dstTopicMixSHORT.map(x => x.toDouble / (Short.MaxValue))
+    val srcTopicMix = srcTopicMixSHORT.map(x => x.toDouble / (Float.MaxValue))
+    val dstTopicMix = dstTopicMixSHORT.map(x => x.toDouble / (Float.MaxValue))
 
     val FlowWords(srcWord, dstWord) = flowWordCreator.flowWords(hour: Int, minute: Int, second: Int,
       srcPort: Int, dstPort: Int, ipkt: Long, ibyt: Long)

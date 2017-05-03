@@ -42,7 +42,7 @@ class DNSScoreFunction(frameLengthCuts: Array[Double],
                        entropyCuts: Array[Double],
                        numberPeriodsCuts: Array[Double],
                        topicCount: Int,
-                       ipToTopicMixBC: Broadcast[Map[String, Array[Short]]],  // SHORT testing
+                       ipToTopicMixBC: Broadcast[Map[String, Array[Float]]],  // SHORT testing
                        wordToPerTopicProbBC: Broadcast[Map[String, Array[Double]]],
                        topDomainsBC: Broadcast[Set[String]],
                        userDomain: String) extends Serializable {

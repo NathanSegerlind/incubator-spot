@@ -60,6 +60,10 @@ object SuspiciousConnects {
         val sparkContext = new SparkContext(sparkConfig)
         val sqlContext = new SQLContext(sparkContext)
 
+        logger.info("testing autoBroadcastJoinThreshold with 367001600 bytes")
+
+        sqlContext.sql("SET spark.sql.autoBroadcastJoinThreshold = 367001600")
+
         val inputDataFrame = InputOutputDataHandler.getInputDataFrame(sqlContext, config.inputPath, logger)
           .getOrElse(sqlContext.emptyDataFrame)
         if(inputDataFrame.rdd.isEmpty()) {

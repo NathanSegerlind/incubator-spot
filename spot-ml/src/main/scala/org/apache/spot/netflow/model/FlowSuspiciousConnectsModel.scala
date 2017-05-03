@@ -75,13 +75,13 @@ class FlowSuspiciousConnectsModel(topicCount: Int,
       */
     val dataWithSrcTopicMix = {
 
-      val recordsWithSrcIPTopicMixes = flowRecords.join(ipToTopicMix,
+      val recordsWithSrcIPTopicMixes = flowRecords.join(org.apache.spark.sql.functions.broadcast(ipToTopicMix),
         flowRecords(SourceIP) === ipToTopicMix(DocumentName), "left_outer")
       val schemaWithSrcTopicMix = flowRecords.schema.fieldNames :+ TopicProbabilityMix
       val dataWithSrcIpProb: DataFrame = recordsWithSrcIPTopicMixes.selectExpr(schemaWithSrcTopicMix: _*)
         .withColumnRenamed(TopicProbabilityMix, SrcIpTopicMix)
 
-      val recordsWithIPTopicMixes = dataWithSrcIpProb.join(ipToTopicMix,
+      val recordsWithIPTopicMixes = dataWithSrcIpProb.join(org.apache.spark.sql.functions.broadcast(ipToTopicMix),
         dataWithSrcIpProb(DestinationIP) === ipToTopicMix(DocumentName), "left_outer")
       val schema = dataWithSrcIpProb.schema.fieldNames :+ TopicProbabilityMix
       recordsWithIPTopicMixes.selectExpr(schema: _*).withColumnRenamed(TopicProbabilityMix, DstIpTopicMix)
@@ -103,8 +103,8 @@ class FlowSuspiciousConnectsModel(topicCount: Int,
                           dstPort: Int,
                           ipkt: Long,
                           ibyt: Long,
-                          srcIpTopicMix: Seq[Short],   // SHORT testing
-                          dstIpTopicMix: Seq[Short]) =>
+                          srcIpTopicMix: Seq[Float],   // SHORT testing
+                          dstIpTopicMix: Seq[Float]) =>
       scoreFunction.score(hour,
         minute,
         second,
